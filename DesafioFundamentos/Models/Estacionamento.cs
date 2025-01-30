@@ -4,16 +4,25 @@ namespace DesafioFundamentos.Models
     {
         private decimal precoInicial = 0;
         private decimal precoPorHora = 0;
+        private int capacidade = 0;
+
         private List<string> veiculos = new List<string>();
 
-        public Estacionamento(decimal precoInicial, decimal precoPorHora)
+        public Estacionamento(decimal precoInicial, decimal precoPorHora, int capacidade)
         {
             this.precoInicial = precoInicial;
             this.precoPorHora = precoPorHora;
+            this.capacidade = capacidade;
         }
 
         public void AdicionarVeiculo()
         {
+            if (veiculos.Count >= capacidade)
+            {
+                Console.WriteLine("Erro: O estacionamento está cheio! Nenhum veículo pode ser adicionado.");
+                return;
+            }
+
             Console.WriteLine("Digite a placa do veículo para estacionar:");
             string placa = Console.ReadLine();
             veiculos.Add(placa.ToUpper());
@@ -59,9 +68,11 @@ namespace DesafioFundamentos.Models
 
         public void ListarVeiculos()
         {
+            ExibirCapacidade();
             // Verifica se há veículos no estacionamento
             if (veiculos.Any())
             {
+
                 Console.WriteLine("Os veículos estacionados são:");
                 foreach (var veiculo in veiculos)
                 {
@@ -72,6 +83,20 @@ namespace DesafioFundamentos.Models
             {
                 Console.WriteLine("Não há veículos estacionados.");
             }
+        }
+
+
+        public void ExibirCapacidade()
+        {
+            Console.WriteLine($"Capacidade total: {capacidade}");
+            Console.WriteLine($"Vagas disponíveis: {capacidade - veiculos.Count}");
+
+            if (veiculos.Count >= capacidade)
+            {
+                Console.WriteLine("⚠️ O estacionamento está cheio!");
+            }
+
+
         }
     }
 }
